@@ -11,8 +11,7 @@
 //
 
 //Importation outils(fichiers et dossiers)
-#include <vector>
-#include <unordered_map>
+#include <map>
 #include <string>
 
 #include "pch.h"
@@ -76,73 +75,79 @@ void Simulateur_Processus::page1::Simuler(Platform::Object^ sender, Windows::UI:
 	//Processus(P) suivant le politique FCFS
 
 	string temps_arrive1, temps_arrive2, temps_arrive3, temps_arrive4, temps_arrive5;
-	charger(A1->Text, temps_arrive1); charger(A2->Text, temps_arrive2); charger(A3->Text, temps_arrive3); charger(A4->Text, temps_arrive4); charger(A5->Text, temps_arrive5);
-	vector<string> table_des_temps_darrive{ temps_arrive1, temps_arrive2, temps_arrive3, temps_arrive4, temps_arrive5 };
-	sort(begin(table_des_temps_darrive), end(table_des_temps_darrive));		//Temps d'arrivé trié
-	
-	//Creation d'une correspondance entre les processus avec leurs temps d'arrivé
-	unordered_map<string, string> maping{
-		{ temps_arrive1, "P1"},
-		{ temps_arrive2, "P2"},
-		{ temps_arrive3, "P3"},
-		{ temps_arrive4, "P4"},
-		{ temps_arrive5, "P5"},
-	};
-
-	wstring texte{ begin(maping[table_des_temps_darrive[0]]), end(maping[table_des_temps_darrive[0]]) };
-	P1->Content = ref new Platform::String(texte.c_str());
-	texte = { begin(maping[table_des_temps_darrive[1]]), end(maping[table_des_temps_darrive[1]]) };
-	P2->Content = ref new Platform::String(texte.c_str());
-	texte = { begin(maping[table_des_temps_darrive[2]]), end(maping[table_des_temps_darrive[2]]) };
-	P3->Content = ref new Platform::String(texte.c_str());
-	texte = { begin(maping[table_des_temps_darrive[3]]), end(maping[table_des_temps_darrive[3]]) };
-	P4->Content = ref new Platform::String(texte.c_str());
-	texte = { begin(maping[table_des_temps_darrive[4]]), end(maping[table_des_temps_darrive[4]]) };
-	P5->Content = ref new Platform::String(texte.c_str());
-
-	//-----------
-
-	//Temps d'execution et moyen
-
-	//Temps d'éxecution(TP)
 	string temps_execution1, temps_execution2, temps_execution3, temps_execution4, temps_execution5;
+	charger(A1->Text, temps_arrive1); charger(A2->Text, temps_arrive2); charger(A3->Text, temps_arrive3); charger(A4->Text, temps_arrive4); charger(A5->Text, temps_arrive5);
 	charger(E1->Text, temps_execution1); charger(E2->Text, temps_execution2); charger(E3->Text, temps_execution3); charger(E4->Text, temps_execution4); charger(E5->Text, temps_execution5);
 
-	//Creation d'une correspondance entre les processus avec leur temps d'execution à l'aide de leur temps d'arrivé
-	maping = {
-		{ temps_arrive1, temps_execution1 },
-		{ temps_arrive2, temps_execution2 },
-		{ temps_arrive3, temps_execution3 },
-		{ temps_arrive4, temps_execution4 },
-		{ temps_arrive5, temps_execution5 },
-	};
+	try {
+		//Creation d'une correspondance entre les processus avec leurs temps d'arrivé et tri des temps d'arrivé à l'aide du dictionnaire (le dictionnaire trie automatiquement les clés par ordre croissants)
+		multimap<int, string> maping{
+			{ stoi(temps_arrive1), "P1"},
+			{ stoi(temps_arrive2), "P2"},
+			{ stoi(temps_arrive3), "P3"},
+			{ stoi(temps_arrive4), "P4"},
+			{ stoi(temps_arrive5), "P5"},
+		};
 
-	texte = { begin(maping[table_des_temps_darrive[0]]), end(maping[table_des_temps_darrive[0]]) };
-	TP1->Text = ref new Platform::String(texte.c_str());
-	int durée{ stoi(maping[table_des_temps_darrive[0]]) + stoi(maping[table_des_temps_darrive[1]]) }, temps_moyen{ stoi(maping[table_des_temps_darrive[0]]) };
-	temps_moyen += durée;
-	string Texte = to_string(durée);
-	texte = { begin(Texte), end(Texte) };
-	TP2->Text = ref new Platform::String(texte.c_str());
-	durée += stoi(maping[table_des_temps_darrive[2]]); temps_moyen += durée;
-	Texte = to_string(durée);
-	texte = { begin(Texte), end(Texte) };
-	TP3->Text = ref new Platform::String(texte.c_str());
-	durée += stoi(maping[table_des_temps_darrive[3]]); temps_moyen += durée;
-	Texte = to_string(durée);
-	texte = { begin(Texte), end(Texte) };
-	TP4->Text = ref new Platform::String(texte.c_str());
-	durée += stoi(maping[table_des_temps_darrive[4]]); 
-	Texte = to_string(durée);
-	texte = { begin(Texte), end(Texte) };
-	TP5->Text = ref new Platform::String(texte.c_str());
+		auto i = begin(maping);
+		wstring texte{ begin(i->second), end(i->second) }; ++i;
+		P1->Content = ref new Platform::String(texte.c_str());
+		texte = { begin(i->second), end(i->second) }; ++i;
+		P2->Content = ref new Platform::String(texte.c_str());
+		texte = { begin(i->second), end(i->second) }; ++i;
+		P3->Content = ref new Platform::String(texte.c_str());
+		texte = { begin(i->second), end(i->second) }; ++i;
+		P4->Content = ref new Platform::String(texte.c_str());
+		texte = { begin(i->second), end(i->second) };
+		P5->Content = ref new Platform::String(texte.c_str());
 
-	//Temps moyen(temps_moyen)
-	Texte = to_string(static_cast<double>(temps_moyen / 5));
-	texte = { begin(Texte), end(Texte) };
-	TempsMoyen->Text = "Temps moyen d'attente : " + ref new Platform::String(texte.c_str());
+		//-----------
 
-	//------------------------
+		//Temps d'execution et moyen
+
+		//Temps d'éxecution(TP)
+
+		//Creation d'une correspondance entre les processus avec leur temps d'execution à l'aide de leur temps d'arrivé
+		maping = {
+			{ stoi(temps_arrive1), temps_execution1 },
+			{ stoi(temps_arrive2), temps_execution2 },
+			{ stoi(temps_arrive3), temps_execution3 },
+			{ stoi(temps_arrive4), temps_execution4 },
+			{ stoi(temps_arrive5), temps_execution5 },
+		};
+
+		i = begin(maping);
+		int durée = stoi(i->second), temps_moyen = stoi(i->second);
+		texte = { begin(i->second), end(i->second) }; ++i;
+		TP1->Text = ref new Platform::String(texte.c_str());
+		durée += stoi(i->second); temps_moyen += durée;
+		string Texte = to_string(durée);
+		texte = { begin(Texte), end(Texte) }; ++i;
+		TP2->Text = ref new Platform::String(texte.c_str());
+		durée += stoi(i->second); temps_moyen += durée;
+		Texte = to_string(durée);
+		texte = { begin(Texte), end(Texte) }; ++i;
+		TP3->Text = ref new Platform::String(texte.c_str());
+		durée += stoi(i->second); temps_moyen += durée;
+		Texte = to_string(durée);
+		texte = { begin(Texte), end(Texte) }; ++i;
+		TP4->Text = ref new Platform::String(texte.c_str());
+		durée += stoi(i->second);
+		Texte = to_string(durée);
+		texte = { begin(Texte), end(Texte) };
+		TP5->Text = ref new Platform::String(texte.c_str());
+
+		//Temps moyen(temps_moyen)
+		Texte = to_string(static_cast<double>(temps_moyen) / 5.0);
+		texte = { begin(Texte), end(Texte) };
+		TempsMoyen->Text = "Temps moyen d'attente : " + ref new Platform::String(texte.c_str());
+
+		//------------------------
+	}
+	catch (const exception& e) {
+		auto dialogue = ref new MessageDialog("Ca ne s'est pas passé comme prévu.\nAppuyez sur Ctrl+H pour voir l'aide.", "Error");
+		dialogue->ShowAsync();
+	}
 }
 
 //----------
