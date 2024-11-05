@@ -9,4 +9,4 @@ https://loukam.net/2LMD_Chap3.pdf
 
 -Install [MSVC](https://learn.microsoft.com/fr-fr/cpp/windows/latest-supported-vc-redist?view=msvc-170).
 
--Install [Simulateur](https://github.com/cestbryan-ng/Simulateur-Processus/tree/main/setup/Simulateur_setup/Simulateur_Processus_1.0.0.0_Debug_Test).
+-Install [Simulateur](https://github.com/cestbryan-ng/Simulateur-Processus/archive/refs/heads/setup.zip).
