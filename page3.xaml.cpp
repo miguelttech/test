@@ -72,54 +72,64 @@ void Simulateur_Processus::page3::Simuler(Platform::Object^ sender, Windows::UI:
 	//Declaration variable et autre
 	string temps_execution1, temps_execution2, temps_execution3, quantum_, Texte;
 	charger(E1->Text, temps_execution1); charger(E2->Text, temps_execution2); charger(E3->Text, temps_execution3); charger(Quantum->Text, quantum_);
-	int compteur_P1{ stoi(temps_execution1) }, compteur_P2{ stoi(temps_execution2) }, compteur_P3{ stoi(temps_execution3) }, quantum{ stoi(quantum_) }, durée{ 0 };
 
-	//Affichage processus(P) et leur temps d'execution(TE) suivant la politique Round Robin
-	P1->Content = ""; TE->Text = "";
-	TE->Text += "  0  ";
-	while ( (compteur_P1 > 0) || (compteur_P2 > 0) || (compteur_P3 > 0)) {
-		if (compteur_P1 > 0) { 
-			P1->Content += "  P1  "; compteur_P1 -= quantum; 
+	try {
+		int compteur_P1{ stoi(temps_execution1) }, compteur_P2{ stoi(temps_execution2) }, compteur_P3{ stoi(temps_execution3) }, quantum{ stoi(quantum_) }, durée{ 0 };
+
+		//Affichage processus(P) et leur temps d'execution(TE) suivant la politique Round Robin
+		P1->Content = ""; TE->Text = "";
+		TE->Text += "  0  ";
+		while ((compteur_P1 > 0) || (compteur_P2 > 0) || (compteur_P3 > 0)) {
 			if (compteur_P1 > 0) {
-				durée += quantum;
-				Texte = to_string(durée);
-				wstring texte_{ begin(Texte), end(Texte) };
-				TE->Text += "  " + ref new Platform::String(texte_.c_str()) + "  ";
-			} else {
-				durée += (compteur_P1 + quantum) ;
-				Texte = to_string(durée);
-				wstring texte{ begin(Texte), end(Texte) };
-				TE->Text += "  " + ref new Platform::String(texte.c_str()) + "  ";
+				P1->Content += "  P1  "; compteur_P1 -= quantum;
+				if (compteur_P1 > 0) {
+					durée += quantum;
+					Texte = to_string(durée);
+					wstring texte_{ begin(Texte), end(Texte) };
+					TE->Text += "  " + ref new Platform::String(texte_.c_str()) + "  ";
+				}
+				else {
+					durée += (compteur_P1 + quantum);
+					Texte = to_string(durée);
+					wstring texte{ begin(Texte), end(Texte) };
+					TE->Text += "  " + ref new Platform::String(texte.c_str()) + "  ";
+				}
 			}
-		}
-		if (compteur_P2 > 0) {
-			P1->Content += "  P2  "; compteur_P2 -= quantum;
 			if (compteur_P2 > 0) {
-				durée += quantum;
-				Texte = to_string(durée);
-				wstring texte1_{ begin(Texte), end(Texte) };
-				TE->Text += "  " + ref new Platform::String(texte1_.c_str()) + "  ";
-			} else {
-				durée += (compteur_P2 + quantum);
-				Texte = to_string(durée);
-				wstring texte1{ begin(Texte), end(Texte) };
-				TE->Text += "  " + ref new Platform::String(texte1.c_str()) + "  ";
+				P1->Content += "  P2  "; compteur_P2 -= quantum;
+				if (compteur_P2 > 0) {
+					durée += quantum;
+					Texte = to_string(durée);
+					wstring texte1_{ begin(Texte), end(Texte) };
+					TE->Text += "  " + ref new Platform::String(texte1_.c_str()) + "  ";
+				}
+				else {
+					durée += (compteur_P2 + quantum);
+					Texte = to_string(durée);
+					wstring texte1{ begin(Texte), end(Texte) };
+					TE->Text += "  " + ref new Platform::String(texte1.c_str()) + "  ";
+				}
 			}
-		}
-		if (compteur_P3 > 0) {
-			P1->Content += "  P3  "; compteur_P3 -= quantum;
 			if (compteur_P3 > 0) {
-				durée += quantum;
-				Texte = to_string(durée);
-				wstring texte2_{ begin(Texte), end(Texte) };
-				TE->Text += "  " + ref new Platform::String(texte2_.c_str()) + "  ";
-			} else {
-				durée += (compteur_P3 + quantum);
-				Texte = to_string(durée);
-				wstring texte2{ begin(Texte), end(Texte) };
-				TE->Text += "  " + ref new Platform::String(texte2.c_str()) + "  ";
+				P1->Content += "  P3  "; compteur_P3 -= quantum;
+				if (compteur_P3 > 0) {
+					durée += quantum;
+					Texte = to_string(durée);
+					wstring texte2_{ begin(Texte), end(Texte) };
+					TE->Text += "  " + ref new Platform::String(texte2_.c_str()) + "  ";
+				}
+				else {
+					durée += (compteur_P3 + quantum);
+					Texte = to_string(durée);
+					wstring texte2{ begin(Texte), end(Texte) };
+					TE->Text += "  " + ref new Platform::String(texte2.c_str()) + "  ";
+				}
 			}
 		}
+	}
+	catch (const exception& e) {
+		auto dialogue = ref new MessageDialog("Ca ne s'est pas passé comme prévu.\nAppuyez sur Ctrl+H pour voir l'aide.", "Error");
+		dialogue->ShowAsync();
 	}
 }
 
