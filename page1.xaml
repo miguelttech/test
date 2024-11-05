@@ -1,0 +1,110 @@
+﻿<Page
+    x:Class="Simulateur_Processus.page1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Simulateur_Processus"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="1920" Height="934">
+
+    <Grid Background="#FF1A1A1A">
+        <MenuBar VerticalAlignment="Top" Background="Black">
+            <MenuBarItem Title="Fichier" AccessKey="F">
+                <MenuFlyoutItem Text="Save" Icon="Save"/>
+                <MenuFlyoutItem Text="Quitter" Click="Fermer">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Windows" Key="F4"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+            </MenuBarItem>
+            <MenuBarItem Title="Solution" AccessKey="S">
+                <MenuFlyoutItem Text="Simuler" Icon="Add" Click="Simuler">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="F5"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Text="Réinitialliser" Icon="Sync" Click="Reset_Click">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="F6"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+            </MenuBarItem>
+            <MenuBarItem Title="Aide" AccessKey="A">
+                <MenuFlyoutItem Text="Afficher l'aide" Icon="Help" Click="Aide_Click" KeyboardAcceleratorTextOverride="Ctrl+H">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="H"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Text="A propos" Icon="Comment" Click="Apropos_Click">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="A"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+            </MenuBarItem>
+        </MenuBar>
+        <StackPanel  Background="Black"  Margin="0,40,0,0"  VerticalAlignment="Top" Width="1920" HorizontalAlignment="Center" Height="38" Orientation="Horizontal">
+            <Image Height="31" Width="77" Source="/Assets/SplashScreen.scale-200.png" VerticalAlignment="Center"/>
+            <TextBlock TextWrapping="Wrap" Text="FCFS" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="1350,0,0,0" FontFamily="Arial Black" FontSize="20" FontWeight="Bold" />
+        </StackPanel>
+        <StackPanel Margin="0,64,1596,0" VerticalAlignment="Top" Height="870" BorderBrush="Black" BorderThickness="10,0,15,10">
+            <TextBlock TextWrapping="Wrap" Text="Choisir un algorithme :" FontFamily="Cambria" FontSize="20" FontWeight="Bold" FontStyle="Italic" TextDecorations="Underline" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,97,0,0"/>
+            <CheckBox Content="FCFS" FontFamily="Cambria" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0" IsEnabled="False" IsChecked="True"/>
+            <CheckBox Content="SJF" FontFamily="Cambria" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" IsEnabled="False"/>
+            <CheckBox Content="Round Robin" FontFamily="Cambria" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Margin="15,0,0,0" IsEnabled="False"/>
+            <Button Content="REINITIALLISER" Background="Green" Foreground="White" BorderBrush="White" FontFamily="Cooper Black" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Margin="0,100,0,0" BorderThickness="0,0,0,2" Width="147" Click="Reset_Click"/>
+            <TextBlock TextWrapping="Wrap" Text="Tips :" FontFamily="Cambria" FontSize="18" HorizontalAlignment="Center" Margin="0,100,0,0" TextDecorations="Underline"/>
+            <TextBlock TextAlignment="Justify" TextWrapping="Wrap" FontFamily="Cambria" FontSize="17" HorizontalAlignment="Center" Text="-Appuyez sur renitialiser pour changer d'algorithme ou 'Ctrl+F6'. " Width="234"/>
+        </StackPanel>
+        <StackPanel Margin="0,905,0,0" Background="Black" HorizontalAlignment="Center" Width="1920" Orientation="Horizontal">
+            <Button  Click="Simuler" Content="Simuler" Background="Black" Foreground="White" HorizontalAlignment="Center" Margin="1400,0,0,0" VerticalAlignment="Bottom"/>
+            <Button Click="Reset_Click" Content="Réinitialiser" Background="Black" Foreground="White" HorizontalAlignment="Center" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
+            <TextBlock TextWrapping="Wrap" Text="Simulateur de planification de processus v1.0" FontFamily="Cambria" FontWeight="Bold" FontStyle="Italic" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="50,0,0,0"/>
+        </StackPanel>
+        <Canvas Margin="0,64,0,29" HorizontalAlignment="Right" Width="1596">
+            <Canvas Height="841" Width="660" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Grid BorderBrush="Black" Height="164" Width="327" Canvas.Left="167" Canvas.Top="151" BorderThickness="2,2,2,2" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Frame Background="Black" Content="Processus" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Height="25" FontFamily="Cambria" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="11" VerticalContentAlignment="Center"/>
+                    <Frame Content="Temps d'éxecution" HorizontalAlignment="Center" VerticalAlignment="Top" Width="109" Height="25" FontFamily="Cambria" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="11" VerticalContentAlignment="Center"/>
+                    <Frame Background="Black" Content="Temps d'arrivé" HorizontalAlignment="Right" VerticalAlignment="Top" Width="109" Height="25" FontFamily="Cambria" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="11" VerticalContentAlignment="Center"/>
+                    <Frame  Content="P1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Height="25" FontFamily="Cambria" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="11" VerticalContentAlignment="Center" Margin="0,27,0,0"/>
+                    <Frame  Background="Black" Content="P2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Height="25" FontFamily="Cambria" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="11" VerticalContentAlignment="Center" Margin="0,54,0,0"/>
+                    <Frame  Content="P3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Height="25" FontFamily="Cambria" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="11" VerticalContentAlignment="Center" Margin="0,81,0,0"/>
+                    <Frame  Background="Black" Content="P4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Height="25" FontFamily="Cambria" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="11" VerticalContentAlignment="Center" Margin="0,108,0,0"/>
+                    <Frame  Content="P5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Height="25" FontFamily="Cambria" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="11" VerticalContentAlignment="Center" Margin="2,135,0,0"/>
+                    <TextBox x:Name="E1" FontSize="11" TextAlignment="Center" Background="Black" BorderBrush="Black" HorizontalAlignment="Center"  Margin="0,27,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" Width="109"/>
+                    <TextBox x:Name="A1" FontSize="11" TextAlignment="Center" Background="#FF1A1A1A" BorderBrush="#FF1A1A1A" HorizontalAlignment="Left"  Margin="216,27,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" Width="109"/>
+                    <TextBox x:Name="E2" FontSize="11" TextAlignment="Center" Background="#FF1A1A1A" BorderBrush="#FF1A1A1A" HorizontalAlignment="Center"  Margin="0,54,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" Width="109"/>
+                    <TextBox x:Name="A2" FontSize="11" TextAlignment="Center" Background="Black" BorderBrush="Black" HorizontalAlignment="Left"  Margin="216,56,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" Width="109"/>
+                    <TextBox x:Name="E3" FontSize="11" TextAlignment="Center" Background="Black" BorderBrush="Black" HorizontalAlignment="Left"  Margin="108,81,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" Width="109"/>
+                    <TextBox x:Name="A3" FontSize="11" TextAlignment="Center" Background="#FF1A1A1A" BorderBrush="#FF1A1A1A" HorizontalAlignment="Left"  Margin="218,81,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" Width="109"/>
+                    <TextBox x:Name="E4" FontSize="11" TextAlignment="Center" Background="#FF1A1A1A" BorderBrush="#FF1A1A1A" HorizontalAlignment="Center"  Margin="0,108,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" Width="109"/>
+                    <TextBox x:Name="A4" FontSize="11" TextAlignment="Center" Background="Black" BorderBrush="Black" HorizontalAlignment="Left"  Margin="216,110,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" Width="109"/>
+                    <TextBox x:Name="E5" FontSize="11" TextAlignment="Center" Background="Black" BorderBrush="Black" HorizontalAlignment="Center"  Margin="0,137,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" Width="109"/>
+                    <TextBox x:Name="A5" FontSize="11" TextAlignment="Center" Background="#FF1A1A1A" BorderBrush="#FF1A1A1A" HorizontalAlignment="Left"  Margin="218,137,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" Width="109"/>
+                </Grid>
+                <TextBlock Canvas.Left="90" TextWrapping="Wrap" Text="Entrer les valeurs des temps d'arrivé et d'éxecution puis lancer l'éxecution." Canvas.Top="80" FontFamily="Cambria" FontWeight="Bold" TextDecorations="Underline" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Button Background="Red" Foreground="Yellow" BorderBrush="Yellow" Content="Simuler" Canvas.Left="300" Canvas.Top="347" VerticalAlignment="Top" Click="Simuler"/>
+            </Canvas>
+            <StackPanel Height="841" Width="936" HorizontalAlignment="Left" Canvas.Left="660" VerticalAlignment="Center" BorderBrush="Black" BorderThickness="10,0,0,0">
+                <Grid BorderBrush="Black" Height="44" Width="530" Margin="0,296,0,0" BorderThickness="8,8,8,8">
+                    <Frame x:Name="P1" BorderBrush="Black" BorderThickness="0,0,8,0" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalContentAlignment ="Center"  Content="" Width="106" FontFamily="Cambria" FontSize="12" FontWeight="Bold"/>
+                    <Frame x:Name="P5" BorderBrush="Black" BorderThickness="7,0,0,0" HorizontalAlignment="Right"  HorizontalContentAlignment="Center" VerticalContentAlignment ="Center" Content="" Width="106" FontFamily="Cambria" FontSize="12" FontWeight="Bold"/>
+                    <Frame x:Name="P2" BorderBrush="Black" BorderThickness="0,0,8,0" HorizontalAlignment="Left"  HorizontalContentAlignment="Center" VerticalContentAlignment ="Center" Content="" Width="106" Margin="106,0,0,0" FontFamily="Cambria" FontSize="12" FontWeight="Bold"/>
+                    <Frame x:Name="P3" BorderBrush="Black" BorderThickness="0,0,8,0" HorizontalAlignment="Center"  HorizontalContentAlignment="Center" VerticalContentAlignment ="Center" Content="" Width="106" FontFamily="Cambria" FontSize="12"/>
+                    <Frame x:Name="P4" BorderBrush="Black" BorderThickness="0,0,0,0" HorizontalAlignment="Left"  HorizontalContentAlignment="Center" VerticalContentAlignment ="Center" Content="" Width="106" Margin="313,0,0,0" FontFamily="Cambria" FontSize="12" FontWeight="Bold"/>
+                </Grid>
+                <TextBlock TextWrapping="Wrap" Text="0" FontFamily="Cambria" FontSize="12" HorizontalAlignment="Center" Margin="0,0,520,0"/>
+                <TextBlock  x:Name="TP1" TextWrapping="Wrap" Text="" FontFamily="Cambria" FontSize="12" HorizontalAlignment="Center" Margin="0,-15,310,0"/>
+                <TextBlock x:Name="TP2" TextWrapping="Wrap" Text="" FontFamily="Cambria" FontSize="12" HorizontalAlignment="Center" Margin="0,-15,100,0"/>
+                <TextBlock x:Name="TP3" TextWrapping="Wrap" Text="" FontFamily="Cambria" FontSize="12" HorizontalAlignment="Center" Margin="0,-15,-110,0"/>
+                <TextBlock x:Name="TP4" TextWrapping="Wrap" Text="" FontFamily="Cambria" FontSize="12" HorizontalAlignment="Center" Margin="0,-15,-330,0"/>
+                <TextBlock x:Name="TP5" TextWrapping="Wrap" Text="" FontFamily="Cambria" FontSize="12" HorizontalAlignment="Center" Margin="0,-15,-530,0"/>
+                <TextBlock TextWrapping="Wrap" Text="L'allocation des processus sera affichée dans le diagramme ci-dessous encore appelé : Diagramme de Gantt" HorizontalAlignment="Center" Margin="0,-250,0,0" Height="21" FontFamily="Cambria" FontSize="18" TextDecorations="Underline"/>
+                <TextBlock x:Name="TempsMoyen" TextWrapping="Wrap" Text="" FontFamily="Cambria" FontSize="18" HorizontalAlignment="Center" Margin="0,40,0,0"/>
+                <TextBlock TextWrapping="Wrap" Text="CPU"  FontFamily="Cambria" FontSize="18" TextDecorations="Underline" HorizontalAlignment="Left" Margin="150,-195,0,0" Height="24" />
+                <TextBlock TextWrapping="Wrap" Text="Temps d'éxecution par le CPU:"  FontFamily="Cambria" FontSize="14" TextDecorations="Underline" HorizontalAlignment="Left" Margin="10,-132,0,0" Height="24" />
+            </StackPanel>
+        </Canvas>
+    </Grid>
+</Page>
