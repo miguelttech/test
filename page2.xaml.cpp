@@ -72,57 +72,64 @@ void Simulateur_Processus::page2::Simuler(Platform::Object^ sender, Windows::UI:
 
 	string temps_execution1, temps_execution2, temps_execution3, temps_execution4, temps_execution5;
 	charger(E1->Text, temps_execution1); charger(E2->Text, temps_execution2); charger(E3->Text, temps_execution3); charger(E4->Text, temps_execution4); charger(E5->Text, temps_execution5);
-	vector<string> table_des_temps_dexecution{ temps_execution1, temps_execution2, temps_execution3, temps_execution4, temps_execution5 };
-	sort(begin(table_des_temps_dexecution), end(table_des_temps_dexecution));		//Temps d'éxecution trié
 
-	//Creation d'une correspondance entre les processus avec leur temps d'execution
-	unordered_map<string, string> maping{
-		{ temps_execution1, "P1"},
-		{ temps_execution2, "P2"},
-		{ temps_execution3, "P3"},
-		{ temps_execution4, "P4"},
-		{ temps_execution5, "P5"},
-	};
+	try {
+		//Creation d'une correspondance entre les processus avec leur temps d'execution et tri des temps d'éxecution à l'aide du dictionnaire
+		multimap<int, string> maping{
+			{ stoi(temps_execution1), "P1"},
+			{ stoi(temps_execution2), "P2"},
+			{ stoi(temps_execution3), "P3"},
+			{ stoi(temps_execution4), "P4"},
+			{ stoi(temps_execution5), "P5"},
+		};
 
-	//Affichage des Processus(P)
-	wstring texte{ begin(maping[table_des_temps_dexecution[0]]), end(maping[table_des_temps_dexecution[0]]) };
-	P1->Content = ref new Platform::String(texte.c_str());
-	texte = { begin(maping[table_des_temps_dexecution[1]]), end(maping[table_des_temps_dexecution[1]]) };
-	P2->Content = ref new Platform::String(texte.c_str());
-	texte = { begin(maping[table_des_temps_dexecution[2]]), end(maping[table_des_temps_dexecution[2]]) };
-	P3->Content = ref new Platform::String(texte.c_str());
-	texte = { begin(maping[table_des_temps_dexecution[3]]), end(maping[table_des_temps_dexecution[3]]) };
-	P4->Content = ref new Platform::String(texte.c_str());
-	texte = { begin(maping[table_des_temps_dexecution[4]]), end(maping[table_des_temps_dexecution[4]]) };
-	P5->Content = ref new Platform::String(texte.c_str());
+		//Affichage des Processus(P)
+		auto i = begin(maping);
+		wstring texte{ begin(i->second), end(i->second) }; ++i;
+		P1->Content = ref new Platform::String(texte.c_str());
+		texte = { begin(i->second), end(i->second) }; ++i;
+		P2->Content = ref new Platform::String(texte.c_str());
+		texte = { begin(i->second), end(i->second) }; ++i;
+		P3->Content = ref new Platform::String(texte.c_str());
+		texte = { begin(i->second), end(i->second) }; ++i;
+		P4->Content = ref new Platform::String(texte.c_str());
+		texte = { begin(i->second), end(i->second) };
+		P5->Content = ref new Platform::String(texte.c_str());
 
-	//---------
+		//---------
 
-	//Temps d'execution(TP)
-	texte = { begin(table_des_temps_dexecution[0]), end(table_des_temps_dexecution[0]) };
-	TP1->Text = ref new Platform::String(texte.c_str());
-	int durée{ stoi(table_des_temps_dexecution[0]) + stoi(table_des_temps_dexecution[1]) }, temps_moyen{ stoi(table_des_temps_dexecution[0]) };
-	temps_moyen += durée;
-	string Texte = to_string(durée);
-	texte = { begin(Texte), end(Texte) };
-	TP2->Text = ref new Platform::String(texte.c_str());
-	durée += stoi(table_des_temps_dexecution[2]); temps_moyen += durée;
-	Texte = to_string(durée);
-	texte = { begin(Texte), end(Texte) };
-	TP3->Text = ref new Platform::String(texte.c_str());
-	durée += stoi(table_des_temps_dexecution[3]); temps_moyen += durée;
-	Texte = to_string(durée);
-	texte = { begin(Texte), end(Texte) };
-	TP4->Text = ref new Platform::String(texte.c_str());
-	durée += stoi(table_des_temps_dexecution[4]);
-	Texte = to_string(durée);
-	texte = { begin(Texte), end(Texte) };
-	TP5->Text = ref new Platform::String(texte.c_str());
+		//Temps d'execution(TP)
+		i = begin(maping);
+		int durée = i->first, temps_moyen = i->first;
+		string Texte = to_string(durée);
+		texte = { begin(Texte), end(Texte) }; ++i;
+		TP1->Text = ref new Platform::String(texte.c_str());
+		durée += i->first; temps_moyen += durée;
+		Texte = to_string(durée);
+		texte = { begin(Texte), end(Texte) }; ++i;
+		TP2->Text = ref new Platform::String(texte.c_str());
+		durée += i->first; temps_moyen += durée;
+		Texte = to_string(durée);
+		texte = { begin(Texte), end(Texte) }; ++i;
+		TP3->Text = ref new Platform::String(texte.c_str());
+		durée += i->first; temps_moyen += durée;
+		Texte = to_string(durée);
+		texte = { begin(Texte), end(Texte) }; ++i;
+		TP4->Text = ref new Platform::String(texte.c_str());
+		durée += i->first;
+		Texte = to_string(durée);
+		texte = { begin(Texte), end(Texte) };
+		TP5->Text = ref new Platform::String(texte.c_str());
 
-	//Temps moyen(temps_moyen)
-	Texte = to_string(static_cast<double>(temps_moyen / 5));
-	texte = { begin(Texte), end(Texte) };
-	TempsMoyen->Text = "Temps moyen d'attente : " + ref new Platform::String(texte.c_str());
+		//Temps moyen(temps_moyen)
+		Texte = to_string(static_cast<double>(temps_moyen) / 5.0);
+		texte = { begin(Texte), end(Texte) };
+		TempsMoyen->Text = "Temps moyen d'attente : " + ref new Platform::String(texte.c_str());
+	}
+	catch (const exception& e) {
+		auto dialogue = ref new MessageDialog("Ca ne s'est pas passé comme prévu.\nAppuyez sur Ctrl+H pour voir l'aide.", "Error");
+		dialogue->ShowAsync();
+	}
 }
 
 //-----------
